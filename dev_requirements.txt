@@ -6,4 +6,7 @@ Markdown
 BeautifulSoup4
 lxml
 typogrify
-webassets
+
+# To perform release
+bumpr==0.2.0
+wheel

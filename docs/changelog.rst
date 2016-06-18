@@ -1,10 +1,156 @@
 Release history
 ###############
 
-3.2 (XXXX-XX-XX)
+Next release
+============
+
+* ``SLUG_SUBSTITUTIONS`` now accepts 3-tuple elements, allowing to keep
+  non-alphanum characters. Existing 2-tuple configurations will continue to work
+  without change in behavior. The new 3rd parameter has side effects when there
+  are multiple substitutions defined. Plese see the docs.
+* Tag and category slugs can be controlled with greater precision using the
+  ``TAG_SUBSTITUTIONS`` and ``CATEGORY_SUBSTITUTIONS`` settings. These also
+  allow for keeping non-alphanum characters for backward compatibility with
+  existing URLs.
+* Author slugs can be controlled with greater precision using the
+  ``AUTHOR_SUBSTITUTIONS`` setting. Keeping non-alphanum characters is supported
+  as well but discouraged.
+
+3.6.3 (2015-08-14)
+==================
+
+* Fix permissions issue in release tarball
+
+3.6.2 (2015-08-01)
+==================
+
+* Fix installation errors related to Unicode in tests
+* Don't show pagination in ``notmyidea`` theme if there's only one page
+* Make hidden pages available in context
+* Improve URLWrapper comparison
+
+3.6.0 (2015-06-15)
+==================
+
+* Disable caching by default in order to prevent potential confusion
+* Improve caching behavior, replacing ``pickle`` with ``cpickle``
+* Allow Markdown or reST content in metadata fields other than ``summary``
+* Support semicolon-separated author/tag lists
+* Improve flexibility of article sorting
+* Add ``--relative-urls`` argument
+* Support devserver listening on addresses other than localhost
+* Unify HTTP server handlers to ``pelican.server`` throughout
+* Handle intra-site links to draft posts
+* Move ``tag_cloud`` from core to plugin
+* Load default theme's external resources via HTTPS
+* Import drafts from WordPress XML
+* Improve support for Windows users
+* Enhance logging and test suite
+* Clean up and refactor codebase
+* New signals: ``all_generators_finalized`` and ``page_writer_finalized``
+
+3.5.0 (2014-11-04)
+==================
+
+* Introduce ``ARTICLE_ORDER_BY`` and ``PAGE_ORDER_BY`` settings to control the
+  order of articles and pages.
+* Include time zone information in dates rendered in templates.
+* Expose the reader name in the metadata for articles and pages.
+* Add the ability to store static files along with content in the same
+  directory as articles and pages using ``{attach}`` in the path.
+* Prevent Pelican from raising an exception when there are duplicate pieces of
+  metadata in a Markdown file.
+* Introduce the ``TYPOGRIFY_IGNORE_TAGS`` setting to add HTML tags to be ignored
+  by Typogrify.
+* Add the ability to use ``-`` in date formats to strip leading zeros. For
+  example, ``%-d/%-m/%y`` will now result in the date ``9/8/12``.
+* Ensure feed generation is correctly disabled during quickstart configuration.
+* Fix ``PAGE_EXCLUDES`` and ``ARTICLE_EXCLUDES`` from incorrectly matching
+  sub-directories.
+* Introduce ``STATIC_EXCLUDE`` setting to add static file excludes.
+* Fix an issue when using ``PAGINATION_PATTERNS`` while ``RELATIVE_URLS``
+  is enabled.
+* Fix feed generation causing links to use the wrong language for month
+  names when using other locales.
+* Fix an issue where the authors list in the simple template wasn't correctly
+  formatted.
+* Fix an issue when parsing non-string URLs from settings.
+* Improve consistency of debug and warning messages.
+
+3.4.0 (2014-07-01)
+==================
+
+* Speed up content generation via new caching mechanism
+* Add selective post generation (instead of always building entire site)
+* Many documentation improvements, including switching to prettier RtD theme
+* Add support for multiple content and plugin paths
+* Add ``:modified:`` metadata field to complement ``:date:``.
+  Used to specify the last date and time an article was updated independently
+  from the date and time it was published.
+* Add support for multiple authors via new ``:authors:`` metadata field
+* Watch for changes in static directories when in auto-regeneration mode
+* Add filters to limit log output when desired
+* Add language support to drafts
+* Add ``SLUGIFY_SOURCE`` setting to control how post slugs are generated
+* Fix many issues relating to locale and encoding
+* Apply Typogrify filter to post summary
+* Preserve file metadata (e.g. time stamps) when copying static files to output
+* Move AsciiDoc support from Pelican core into separate plugin
+* Produce inline links instead of reference-style links when importing content
+* Improve handling of ``IGNORE_FILES`` setting behavior
+* Properly escape symbol characters in tag names (e.g., ``C++``)
+* Minor tweaks for Python 3.4 compatibility
+* Add several new signals
+
+3.3.0 (2013-09-24)
+==================
+
+* Drop Python 3.2 support in favor of Python 3.3
+* Add ``Fabfile`` so Fabric can be used for workflow automation instead of Make
+* ``OUTPUT_RETENTION`` setting can be used to preserve metadata (e.g., VCS
+  data such as ``.hg`` and ``.git``) from being removed from output directory
+* Tumblr import
+* Improve logic and consistency when cleaning output folder
+* Improve documentation versioning and release automation
+* Improve pagination flexibility
+* Rename signals for better consistency (some plugins may need to be updated)
+* Move metadata extraction from generators to readers; metadata extraction no
+  longer article-specific
+* Deprecate ``FILES_TO_COPY`` in favor of ``STATIC_PATHS`` and
+  ``EXTRA_PATH_METADATA``
+* Summaries in Markdown posts no longer include footnotes
+* Remove unnecessary whitespace in output via ``lstrip_blocks`` Jinja parameter
+* Move PDF generation from core to plugin
+* Replace ``MARKUP`` setting with ``READERS``
+* Add warning if img tag is missing ``alt`` attribute
+* Add support for ``{}`` in relative links syntax, besides ``||``
+* Add support for ``{tag}`` and ``{category}`` relative links
+* Add a ``content_written`` signal
+
+3.2.1 and 3.2.2
+===============
+
+* Facilitate inclusion in FreeBSD Ports Collection
+
+3.2 (2013-04-24)
 ================
 
 * Support for Python 3!
+* Override page save-to location from meta-data (enables using a static page as
+  the site's home page, for example)
+* Time period archives (per-year, per-month, and per-day archives of posts)
+* Posterous blog import
+* Improve WordPress blog import
+* Migrate plugins to separate repository
+* Improve HTML parser
+* Provide ability to show or hide categories from menu using
+  ``DISPLAY_CATEGORIES_ON_MENU`` option
+* Auto-regeneration can be told to ignore files via ``IGNORE_FILES`` setting
+* Improve post-generation feedback to user
+* For multilingual posts, use meta-data to designate which is the original
+  and which is the translation
+* Add ``.mdown`` to list of supported Markdown file extensions
+* Document-relative URL generation (``RELATIVE_URLS``) is now off by default
 
 3.1 (2012-12-04)
 ================
@@ -107,7 +253,7 @@ Release history
 2.5 (2010-11-20)
 ==================
 
-* Import from Wordpress
+* Import from WordPress
 * Added some new themes (martyalchin / wide-notmyidea)
 * First bug report!
 * Linkedin support

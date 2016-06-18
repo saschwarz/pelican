@@ -130,11 +130,11 @@ This is useful for theme development:
     $ sudo pelican-themes -s ~/Dev/Python/pelican-themes/two-column
     $ pelican ~/Blog/content -o /tmp/out -t two-column
     $ firefox /tmp/out/index.html
-    $ vim ~/Dev/Pelican/pelican-themes/two-coumn/static/css/main.css
+    $ vim ~/Dev/Pelican/pelican-themes/two-column/static/css/main.css
     $ pelican ~/Blog/content -o /tmp/out -t two-column
-    $ cp /tmp/bg.png ~/Dev/Pelican/pelican-themes/two-coumn/static/img/bg.png
+    $ cp /tmp/bg.png ~/Dev/Pelican/pelican-themes/two-column/static/img/bg.png
     $ pelican ~/Blog/content -o /tmp/out -t two-column
-    $ vim ~/Dev/Pelican/pelican-themes/two-coumn/templates/index.html
+    $ vim ~/Dev/Pelican/pelican-themes/two-column/templates/index.html
     $ pelican ~/Blog/content -o /tmp/out -t two-column
 
 
@@ -153,12 +153,3 @@ The ``--install``, ``--remove`` and ``--symlink`` option are not mutually exclus
                      --verbose
 
 In this example, the theme ``notmyidea-cms`` is replaced by the theme ``notmyidea-cms-fr``
-
-
-
-
-See also
-========
-
--   http://docs.notmyidea.org/alexis/pelican/
--   ``/usr/share/doc/pelican/`` if you have installed Pelican using the `APT repository <http://skami18.github.com/pelican-packages/>`_

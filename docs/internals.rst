@@ -13,7 +13,7 @@ Overall structure
 =================
 
 What Pelican does is take a list of files and process them into some sort of
-output. Usually, the input files are reStructuredText, Markdown and AsciiDoc
+output. Usually, the input files are reStructuredText and Markdown
 files, and the output is a blog, but both input and output can be anything you
 want.
 
@@ -23,8 +23,8 @@ The logic is separated into different classes and concepts:
   on. Since those operations are commonly used, the object is created once and
   then passed to the generators.
 
-* **Readers** are used to read from various formats (AsciiDoc, HTML, Markdown and
-  reStructuredText for now, but the system is extensible). Given a file, they 
+* **Readers** are used to read from various formats (HTML, Markdown and
+  reStructuredText for now, but the system is extensible). Given a file, they
   return metadata (author, tags, category, etc.) and content (HTML-formatted).
 
 * **Generators** generate the different outputs. For instance, Pelican comes with
@@ -44,13 +44,16 @@ method that returns HTML content and some metadata.
 
 Take a look at the Markdown reader::
 
-    class MarkdownReader(Reader):
+    class MarkdownReader(BaseReader):
         enabled = bool(Markdown)
 
         def read(self, source_path):
             """Parse content and metadata of markdown files"""
             text = pelican_open(source_path)
-            md = Markdown(extensions = ['meta', 'codehilite'])
+            md_extensions = {'markdown.extensions.meta': {},
+                             'markdown.extensions.codehilite': {}}
+            md = Markdown(extensions=md_extensions.keys(),
+                          extension_configs=md_extensions)
             content = md.convert(text)
 
             metadata = {}

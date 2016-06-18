@@ -1,16 +1,28 @@
 language: python
 python:
-    - "2.7"
-    - "3.2"
+  - "2.7"
+env:
+  - TOX_ENV=docs
+  - TOX_ENV=flake8
+  - TOX_ENV=py27
+  - TOX_ENV=py33
+  - TOX_ENV=py34
+matrix:
+  include:
+    - python: 3.5
+      env:
+      - TOX_ENV=py35
+addons:
+  apt_packages:
+    - pandoc
 before_install:
- - sudo apt-get update -qq
- - sudo apt-get install -qq --no-install-recommends asciidoc ruby-sass
+  - sudo apt-get update -qq
+  - sudo locale-gen fr_FR.UTF-8 tr_TR.UTF-8
 install:
-    - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then ln -s /usr/share/asciidoc/asciidocapi.py ~/virtualenv/python2.7/lib/python2.7/site-packages/; fi
-    - pip install nose mock --use-mirrors
-    - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pip install --use-mirrors unittest2; else pip install --use-mirrors unittest2py3k; fi
-    - pip install . --use-mirrors
-    - pip install Markdown
-    - pip install webassets
-    - pip install cssmin
-script: nosetests -s pelican
+  - pip install tox==2.0.1
+script: tox -e $TOX_ENV
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#pelican"
+    on_success: change

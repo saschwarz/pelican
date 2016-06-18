@@ -1,27 +1,25 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals, print_function
-__all__ = ['get_article', 'unittest', ]
+from __future__ import print_function, unicode_literals
 
+import locale
+import logging
 import os
 import re
 import subprocess
 import sys
-from six import StringIO
-import logging
-from logging.handlers import BufferingHandler
-
-from functools import wraps
+import unittest
 from contextlib import contextmanager
-from tempfile import mkdtemp
+from functools import wraps
+from logging.handlers import BufferingHandler
 from shutil import rmtree
+from tempfile import mkdtemp
+
+from six import StringIO
 
 from pelican.contents import Article
-from pelican.settings import _DEFAULT_CONFIG
+from pelican.settings import DEFAULT_CONFIG
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+__all__ = ['get_article', 'unittest', ]
 
 
 @contextmanager
@@ -77,7 +75,7 @@ def mute(returns_output=False):
     If "returns_output" is True, the function will return a generator
     yielding the printed lines instead of the return values.
 
-    The decorator litterally hijack sys.stdout during each function
+    The decorator literally hijack sys.stdout during each function
     execution, so be careful with what you apply it to.
 
     >>> def numbers():
@@ -152,10 +150,26 @@ def module_exists(module_name):
         return True
 
 
-def get_settings():
-    settings = _DEFAULT_CONFIG.copy()
-    settings['DIRECT_TEMPLATES'] = ['archives']
-    settings['filenames'] = {}
+def locale_available(locale_):
+    old_locale = locale.setlocale(locale.LC_TIME)
+
+    try:
+        locale.setlocale(locale.LC_TIME, str(locale_))
+    except locale.Error:
+        return False
+    else:
+        locale.setlocale(locale.LC_TIME, old_locale)
+        return True
+
+
+def get_settings(**kwargs):
+    """Provide tweaked setting dictionaries for testing
+
+    Set keyword arguments to override specific settings.
+    """
+    settings = DEFAULT_CONFIG.copy()
+    for key, value in kwargs.items():
+        settings[key] = value
     return settings
 
 
@@ -166,10 +180,13 @@ class LogCountHandler(BufferingHandler):
         logging.handlers.BufferingHandler.__init__(self, capacity)
 
     def count_logs(self, msg=None, level=None):
-        return len([l for l in self.buffer
-            if (msg is None or re.match(msg, l.getMessage()))
-            and (level is None or l.levelno == level)
-            ])
+        return len([
+            l
+            for l
+            in self.buffer
+            if (msg is None or re.match(msg, l.getMessage())) and
+               (level is None or l.levelno == level)
+        ])
 
 
 class LoggedTestCase(unittest.TestCase):
